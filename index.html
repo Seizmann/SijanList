@@ -114,12 +114,11 @@
     </div>
 
     <!-- Dropdown -->
-    <div id="boardMenu" class="glass-dropdown hidden absolute">
-        <div class="dropdown-item" data-onclick="handleMenuAction('open')"><i class="fa-solid fa-external-link-alt w-4 text-cyan-400"></i> Open All</div>
-        <div class="dropdown-item" data-onclick="handleMenuAction('fetch')"><i class="fa-solid fa-wand-magic-sparkles w-4 text-purple-400"></i> Fetch Titles</div>
-        <div class="h-px bg-white/10 my-1"></div>
-        <div class="dropdown-item" data-onclick="handleMenuAction('edit')"><i class="fa-solid fa-pen w-4 text-blue-400"></i> Rename</div>
-        <div class="dropdown-item danger" data-onclick="handleMenuAction('delete')"><i class="fa-solid fa-trash w-4"></i> Move to Trash</div>
+    <div id="boardMenu" class="glass-dropdown hidden absolute" role="menu">
+        <button class="dropdown-item w-full text-left focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-cyan-500/50" data-onclick="handleMenuAction('edit')" role="menuitem" tabindex="0"><i class="fa-solid fa-pen w-4 text-blue-400"></i> Edit</button>
+        <button class="dropdown-item w-full text-left focus:outline-none focus:bg-white/10 focus:ring-2 focus:ring-cyan-500/50" data-onclick="handleMenuAction('share')" role="menuitem" tabindex="0"><i class="fa-solid fa-share-nodes w-4 text-green-400"></i> Share</button>
+        <div class="h-px bg-white/10 my-1 mx-2" role="separator"></div>
+        <button class="dropdown-item danger w-full text-left focus:outline-none focus:bg-red-500/20 focus:ring-2 focus:ring-red-500/50" data-onclick="handleMenuAction('delete')" role="menuitem" tabindex="0"><i class="fa-solid fa-trash w-4"></i> Delete</button>
     </div>
 
     <script src="script.js"></script>

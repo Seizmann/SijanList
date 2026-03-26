@@ -1627,21 +1627,29 @@ textarea::-webkit-scrollbar-thumb, .modal-scroll::-webkit-scrollbar-thumb {
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+  gap: 0.6rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: #e2e8f0;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0.5rem;
+  margin: 0.25rem 0.5rem;
+  outline: none;
+  background: transparent;
+  border: none;
 }
-.dropdown-item:hover {
+.dropdown-item:hover, .dropdown-item:focus-visible {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
+}
+.dropdown-item:active {
+  transform: scale(0.97);
 }
 .dropdown-item.danger {
   color: #f87171;
 }
-.dropdown-item.danger:hover {
+.dropdown-item.danger:hover, .dropdown-item.danger:focus-visible {
   background: rgba(239, 68, 68, 0.15);
   color: #fca5a5;
 }

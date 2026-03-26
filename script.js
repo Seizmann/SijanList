@@ -131,8 +131,8 @@ const DEFAULT_BOARDS = [{id:"b1",name:"AI & Tech",bookmarks:[{id:"1",title:"Chat
         function switchTab(index) { if (index===dashboardData.activePage) return; const grid=document.getElementById('bookmarkGrid'); grid.style.opacity='0'; grid.style.transform='translateY(15px) scale(0.98)'; setTimeout(()=>{ dashboardData.activePage=index; saveData(); renderTabs(); renderGrid(); grid.style.transform='translateY(-15px) scale(0.98)'; requestAnimationFrame(()=>{ grid.style.opacity='1'; grid.style.transform='translateY(0) scale(1)'; }); }, 300); }
         function deletePage(e, i) { e.stopPropagation(); if(confirm(`Delete page "${dashboardData.pages[i].name}"?`)){ dashboardData.pages.splice(i,1); dashboardData.activePage=Math.max(0,dashboardData.pages.length-1); saveData(); renderTabs(); switchTab(dashboardData.activePage); } }
 
-        function openBoardMenu(e, id) { e.stopPropagation(); currentMenuBoardId=id; const m=document.getElementById('boardMenu'); const r=e.currentTarget.getBoundingClientRect(); m.style.top=`${r.bottom+window.scrollY+8}px`; m.style.left='auto'; m.style.right='auto'; if((r.left+160)>window.innerWidth) m.style.right=`${window.innerWidth-r.right}px`; else m.style.left=`${r.right-160}px`; m.classList.remove('hidden'); m.classList.add('visible'); }
-        function handleMenuAction(a) { document.getElementById('boardMenu').classList.remove('visible'); document.getElementById('boardMenu').classList.add('hidden'); const b=getActiveBoards().find(x=>x.id===currentMenuBoardId); if(!b) return; if(a==='edit'){openPageModal('board',true,currentMenuBoardId);}else if(a==='delete'){ if(confirm(`Move board "${b.name}" to trash?`)){ trashData.push({id:"t_"+Date.now(), type:'board', data:b, origin:{pageId:dashboardData.activePage}, deletedAt:Date.now()}); const c=document.querySelector(`.glass-card[data-id="${currentMenuBoardId}"]`); if(c){c.style.opacity='0';c.style.transform='scale(0.9)';} setTimeout(()=>{ dashboardData.pages[dashboardData.activePage].boards=getActiveBoards().filter(x=>x.id!==currentMenuBoardId); saveData(); renderGrid(); }, 300); } }else if(a==='open'){b.bookmarks.forEach(x=>window.open(x.url,'_blank'));}else if(a==='fetch'){b.bookmarks.forEach(x=>{try{x.title=new URL(x.url).hostname.replace('www.','').split('.')[0].replace(/\b\w/g,c=>c.toUpperCase());}catch(e){}}); saveData(); renderGrid(); } }
+        function openBoardMenu(e, id, triggerEl) { e.stopPropagation(); currentMenuBoardId=id; const m=document.getElementById('boardMenu'); const targetEl = triggerEl || e.target.closest('.menu-trigger') || e.currentTarget; if(!targetEl || typeof targetEl.getBoundingClientRect !== 'function') return; const r=targetEl.getBoundingClientRect(); m.style.top=`${r.bottom+window.scrollY+8}px`; m.style.left='auto'; m.style.right='auto'; if((r.left+160)>window.innerWidth) m.style.right=`${window.innerWidth-r.right}px`; else m.style.left=`${r.right-160}px`; m.classList.remove('hidden'); m.classList.add('visible'); }
+        function handleMenuAction(a) { document.getElementById('boardMenu').classList.remove('visible'); document.getElementById('boardMenu').classList.add('hidden'); const b=getActiveBoards().find(x=>x.id===currentMenuBoardId); if(!b) return; if(a==='edit'){openPageModal('board',true,currentMenuBoardId);}else if(a==='delete'){ if(confirm(`Move board "${b.name}" to trash?`)){ trashData.push({id:"t_"+Date.now(), type:'board', data:b, origin:{pageId:dashboardData.activePage}, deletedAt:Date.now()}); const c=document.querySelector(`.glass-card[data-id="${currentMenuBoardId}"]`); if(c){c.style.opacity='0';c.style.transform='scale(0.9)';} setTimeout(()=>{ dashboardData.pages[dashboardData.activePage].boards=getActiveBoards().filter(x=>x.id!==currentMenuBoardId); saveData(); renderGrid(); }, 300); } }else if(a==='share'){ navigator.clipboard.writeText(JSON.stringify(b, null, 2)).then(()=>alert("Board data copied to clipboard!")).catch(()=>alert("Failed to copy!")); } }
 
         function renderGrid(filter='') {
             const grid=document.getElementById('bookmarkGrid'); grid.innerHTML=''; filter=filter.toLowerCase();
@@ -178,8 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (action === 'autoFillTitle()') autoFillTitle();
         else if (action.includes('window.open')) { window.open('https://sijan.pro.bd/', '_blank'); closeAllModals(); }
         else if (action === 'emptyTrash()') emptyTrash();
-        else if (action === "handleMenuAction('open')") handleMenuAction('open');
-        else if (action === "handleMenuAction('fetch')") handleMenuAction('fetch');
+        else if (action === "handleMenuAction('share')") handleMenuAction('share');
         else if (action === "handleMenuAction('edit')") handleMenuAction('edit');
         else if (action === "handleMenuAction('delete')") handleMenuAction('delete');
         
@@ -197,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else if (action.startsWith('openBoardMenu(')) {
             const id = action.split("'")[1];
-            openBoardMenu(e, id);
+            openBoardMenu(e, id, el);
         }
         else if (action.startsWith('handleLinkClick(')) handleLinkClick(e);
         else if (action.startsWith('openModal(')) {
