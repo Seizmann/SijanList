@@ -1398,15 +1398,85 @@ html, body {
     column-count: 5;
   }
 }
+
+/* Resizable Boards Styles */
+.glass-card {
+    position: relative;
+    min-width: 250px;
+    min-height: 150px;
+}
+
+.resize-handle {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+    opacity: 0;
+    transition: opacity 0.3s;
+    background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 70%, transparent 70%, transparent 80%, rgba(255,255,255,0.2) 80%);
+}
+
+.glass-card:hover .resize-handle {
+    opacity: 0.8;
+}
+
+.resizing {
+    user-select: none;
+    pointer-events: none;
+    z-index: 100 !important;
+    transition: none !important;
+}
+
+.resizing-active .bookmark-item, .resizing-active a {
+    pointer-events: none !important;
+}
+
+.group\/pop:hover .group-hover\/pop\:opacity-100 {
+    opacity: 100 !important;
+}
+
+.glass-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Contain everything */
+}
+
+.sortable-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    display: flex; /* Flexbox for wrapping */
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 8px; /* Use gap for items */
+}
+
+.sortable-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sortable-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
 .bookmark-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   padding: 0.6rem 0.8rem;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid transparent;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
+  width: 100%; /* Default to full width */
+  min-width: 200px; /* Minimum width for a bookmark item */
+  flex: 1 1 200px; /* Grow, shrink, and base on 200px */
+  max-width: 100%;
+  overflow: hidden;
 }
 .bookmark-item:hover {
   background: rgba(255, 255, 255, 0.08);
@@ -1430,6 +1500,10 @@ html, body {
   color: #cbd5e1;
   transition: color 0.2s, filter 0.3s;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1; /* Take up remaining space */
 }
 .bookmark-item:hover .bookmark-title {
   color: #fff;
@@ -1441,7 +1515,8 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 140px;
+  width: 100%;
+  max-width: none; /* Allow dynamic scaling */
   transition: color 0.2s, filter 0.3s;
 }
 .bookmark-item:hover .bookmark-desc {
@@ -1609,10 +1684,15 @@ textarea::-webkit-scrollbar-thumb, .modal-scroll::-webkit-scrollbar-thumb {
   border-radius: 0.75rem;
   transition: all 0.2s;
   transform-origin: top right;
-  z-index: 100;
+  z-index: 150; /* Higher than all modals */
   min-width: 160px;
   overflow: hidden;
 }
+
+#folderModal { z-index: 60; }
+#modalOverlay { z-index: 100; }
+#bookmarkModal, #pageModal, #settingsModal, #aboutModal, #trashModal { z-index: 110; }
+
 .glass-dropdown.hidden {
   opacity: 0;
   transform: scale(0.95) translateY(-5px);

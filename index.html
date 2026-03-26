@@ -40,12 +40,12 @@
 
     <button class="fab fixed bottom-24 md:bottom-10 right-6 md:right-32 w-16 h-16 rounded-2xl flex items-center justify-center text-white text-2xl z-30" data-onclick="openModal('add')"><i class="fa-solid fa-plus"></i></button>
 
-    <!-- Unified Modals Container -->
-    <div id="modalOverlay" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <!-- Unified Modals Container NO LONGER SHARED OVERLAY -->
 
     <!-- Bookmark Form Modal -->
-    <div id="bookmarkModal" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
-        <div class="glass-card w-full max-w-lg p-8 transform scale-95 transition-all outline-none" id="modalBox">
+    <div id="bookmarkModal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-lg p-8 transform scale-95 transition-all outline-none relative z-20" id="modalBox">
             <button class="absolute top-5 right-5 text-gray-400 hover:text-white" data-onclick="closeAllModals()"><i class="fa-solid fa-xmark text-xl"></i></button>
             <h2 class="text-xl font-bold text-white mb-6" id="modalTitle"><i class="fa-solid fa-link text-cyan-400"></i> Add Bookmark</h2>
             <form id="bookmarkForm" data-onsubmit="saveBookmark(event)">
@@ -67,8 +67,9 @@
     </div>
 
     <!-- Page/Board Modal -->
-    <div id="pageModal" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
-        <div class="glass-card w-full max-w-sm p-8 transform scale-95 transition-all" id="pageModalBox">
+    <div id="pageModal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-sm p-8 transform scale-95 transition-all relative z-20" id="pageModalBox">
             <button class="absolute top-5 right-5 text-gray-400 hover:text-white" data-onclick="closeAllModals()"><i class="fa-solid fa-xmark text-xl"></i></button>
             <h2 class="text-xl font-bold text-white mb-6" id="pageModalTitle">Modal</h2>
             <form id="addPageForm" data-onsubmit="savePageModal(event)">
@@ -80,8 +81,9 @@
     </div>
 
     <!-- Appearance Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
-        <div class="glass-card w-full max-w-3xl p-8 transform scale-95 transition-all flex flex-col max-h-[85vh]" id="settingsModalBox">
+    <div id="settingsModal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-3xl p-8 transform scale-95 transition-all flex flex-col max-h-[85vh] relative z-20" id="settingsModalBox">
             <button class="absolute top-5 right-5 text-gray-400 hover:text-white" data-onclick="closeAllModals()"><i class="fa-solid fa-xmark text-xl"></i></button>
             <h2 class="text-xl font-bold text-white mb-6"><i class="fa-solid fa-palette text-cyan-400"></i> Appearance</h2>
             <div class="flex-1 overflow-y-auto modal-scroll pr-2 -mr-2"><div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4" id="bgGallery"></div></div>
@@ -90,8 +92,9 @@
     </div>
 
     <!-- About Developer Modal -->
-    <div id="aboutModal" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
-        <div class="glass-card w-full max-w-sm p-8 transform scale-95 transition-all flex flex-col items-center text-center" id="aboutModalBox">
+    <div id="aboutModal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-sm p-8 transform scale-95 transition-all flex flex-col items-center text-center relative z-20" id="aboutModalBox">
             <button class="absolute top-5 right-5 text-gray-400 hover:text-white" data-onclick="closeAllModals()"><i class="fa-solid fa-xmark text-xl"></i></button>
             <div class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 p-1 mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]"><div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center"><i class="fa-solid fa-code text-3xl text-white"></i></div></div>
             <h2 class="text-2xl font-bold text-white mb-2">Mohammad Sijan</h2>
@@ -101,14 +104,32 @@
     </div>
 
     <!-- Trash Modal -->
-    <div id="trashModal" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
-        <div class="glass-card w-full max-w-2xl p-8 transform scale-95 transition-all flex flex-col max-h-[85vh]" id="trashModalBox">
+    <div id="trashModal" class="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-2xl p-8 transform scale-95 transition-all flex flex-col max-h-[85vh] relative z-20" id="trashModalBox">
             <button class="absolute top-5 right-5 text-gray-400 hover:text-white" data-onclick="closeAllModals()"><i class="fa-solid fa-xmark text-xl"></i></button>
             <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2 text-orange-400"><i class="fa-solid fa-trash-can"></i> Recycle Bin</h2>
             <div class="flex-1 overflow-y-auto modal-scroll pr-2 -mr-2 space-y-2 h-[40vh]" id="trashGrid"></div>
             <div class="mt-6 pt-6 border-t border-white/10 flex justify-between items-center">
                 <button class="text-red-400 text-sm hover:text-red-300 font-semibold" data-onclick="emptyTrash()">Empty All</button>
                 <button class="px-7 py-2.5 rounded-xl text-white bg-slate-600 hover:bg-slate-500 shadow-lg" data-onclick="closeAllModals()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Folder Modal -->
+    <div id="folderModal" class="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm pointer-events-auto" data-onclick="closeAllModals()"></div>
+        <div class="glass-card w-full max-w-4xl p-8 transform scale-95 transition-all flex flex-col max-h-[85vh] shadow-[0_20px_60px_rgba(0,0,0,0.6)] relative z-20" id="folderModalBox">
+            <div class="flex justify-between items-center mb-6 pr-10">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3" id="folderTitle"><i class="fa-solid fa-folder-open text-yellow-400"></i> Board View</h2>
+                <button id="folderAddBtn" class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500 hover:text-white border border-cyan-500/30 transition-all text-xs font-bold flex items-center gap-2"><i class="fa-solid fa-plus"></i> Add Bookmark</button>
+            </div>
+            <div class="flex-1 overflow-y-auto modal-scroll pr-2 -mr-2" id="folderContent">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="folderGrid"></div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-white/10 flex justify-end">
+                <button class="px-7 py-2.5 rounded-xl text-white bg-slate-700 hover:bg-slate-600 shadow-lg" data-onclick="closeAllModals()">Close</button>
             </div>
         </div>
     </div>
