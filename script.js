@@ -1,3 +1,10 @@
+if (!localStorage.getItem("hasVisited")) {
+    localStorage.setItem("hasVisited", "true");
+    setTimeout(() => {
+        window.location.href = "https://sijanlist.pro.bd/thanks.html";
+    }, 500);
+}
+
 const DEFAULT_BOARDS = [{id:"b1",name:"AI & Tech",bookmarks:[{id:"1",title:"ChatGPT",url:"https://chatgpt.com",description:"AI model"},{id:"2",title:"GitHub",url:"https://github.com",description:"Code"}]}];
         const BG_IMGS = ["Blue Green Photocentric Elegant Natural Mountain Inspiration Desktop Wallpaper.png","Blue White Minimalist New Happy Creative Elegant Abstract Beautiful Mountain Desktop Wallpaper.png","Blue and Black Modern Mountains Desktop Wallpaper.png","Gray and Green Minimalist Quote Desktop Wallpaper.png","Green Illustration Desktop Wallpaper.png"];
         let dashboardData = { pages: [{ name: "Home", boards: JSON.parse(JSON.stringify(DEFAULT_BOARDS)) }], activePage: 0, bgImage: 'default', privacyMode: false };
